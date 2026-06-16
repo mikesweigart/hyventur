@@ -40,21 +40,21 @@ export default function HomePage() {
             <Reveal>
               <span className="inline-flex items-center gap-2 rounded-full border border-ink-100 bg-mist px-3 py-1 text-[0.78rem] font-medium text-ink-600">
                 <Sparkles className="size-3.5 text-crimson-600" />
-                The modern payment platform for collections &amp; receivables
+                Compliance-first payment platform for modern collections
               </span>
             </Reveal>
             <Reveal delay={0.05}>
               <h1 className="mt-5 font-display text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-ink-900 sm:text-6xl">
-                Make getting paid the{" "}
-                <span className="text-gradient-brand">easy part.</span>
+                Replace legacy tools. Recover{" "}
+                <span className="text-gradient-brand">more.</span>
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-500">
                 Legacy collection portals lose payments at every step. Hyventur
-                gives your consumers a clean, modern way to pay — by portal,
-                text, phone, or plan — so you recover more, stay compliant, and
-                stop fighting your tools.
+                is built for modern collections teams — compliance first, security
+                built in. Your consumers get a clean way to pay (portal, text,
+                phone, or plan). You recover more and stay audit-ready.
               </p>
             </Reveal>
             <Reveal delay={0.15}>
@@ -72,15 +72,15 @@ export default function HomePage() {
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.82rem] font-medium text-ink-400">
                 <span className="inline-flex items-center gap-1.5">
                   <ShieldCheck className="size-4 text-crimson-600" />
-                  PCI Level 1
+                  SOC 2 &amp; PCI Level 1
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check className="size-4 text-emerald-600" />
+                  FDCPA &amp; Reg F ready
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <Plug className="size-4 text-crimson-600" />
-                  120+ integrations
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Headphones className="size-4 text-crimson-600" />
-                  Real human support
+                  Launch in 30 days
                 </span>
               </div>
             </Reveal>
@@ -159,18 +159,13 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
             <Reveal>
               <Eyebrow className="text-crimson-300">
-                <span className="text-crimson-300">Your guide to getting paid</span>
+                <span className="text-crimson-300">Built for compliance. Built for speed.</span>
               </Eyebrow>
               <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                We&apos;ve spent years making payments the part you never
-                worry about.
+                Compliance isn&apos;t a feature. It&apos;s the foundation.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-300">
-                Hyventur was built by people who understand collections and
-                receivables — the pressure to recover, the weight of
-                compliance, and the consumer who just wants a simple way to
-                pay. We bring the security, the channels, and the support so
-                your team can focus on results.
+                Hyventur was built by people who live the collections compliance reality — Regulation F, FDCPA, SOC 2, HIPAA. Every workflow, every touchpoint, every report is compliance-first. So you recover more, stay audit-ready, and your team can focus on results instead of regulatory risk.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button href="/about" variant="light">
@@ -217,8 +212,8 @@ export default function HomePage() {
           <SectionHeading
             align="center"
             eyebrow="The plan"
-            title="Up and running in three steps."
-            lead="No year-long implementation. No rip-and-replace. Just a clear path from where you are to recovering more."
+            title="Live in 30 days. Recovering more in 90."
+            lead="No year-long implementation. No rip-and-replace. Get launched fast, see recovery gains within your first quarter. Built for speed and results."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {planSteps.map((step, i) => {
