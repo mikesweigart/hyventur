@@ -31,8 +31,8 @@ const values = [
   },
   {
     icon: Users,
-    title: "Partner, don't just provide",
-    body: "We win when you recover more. We bring real human support and stay in it with you, long after go-live.",
+    title: "Built for your success",
+    body: "We bring dedicated support and work closely with you to optimize your operations. Your success with modern payment technology is our mission.",
   },
 ];
 

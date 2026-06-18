@@ -16,6 +16,13 @@ export function HeroMock() {
 
   return (
     <div className="relative">
+      {/* Example data disclaimer */}
+      <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
+        <p className="text-[0.75rem] font-medium text-amber-900">
+          Example dashboard — illustrative metrics for enterprise-scale operations
+        </p>
+      </div>
+
       {/* Main dashboard card */}
       <div className="card-surface overflow-hidden">
         {/* browser chrome */}

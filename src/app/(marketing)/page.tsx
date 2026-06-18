@@ -72,15 +72,15 @@ export default function HomePage() {
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.82rem] font-medium text-ink-400">
                 <span className="inline-flex items-center gap-1.5">
                   <ShieldCheck className="size-4 text-crimson-600" />
-                  SOC 2 &amp; PCI Level 1
+                  SOC 2 &amp; PCI Level 1 Certified
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <Check className="size-4 text-emerald-600" />
-                  FDCPA &amp; Reg F ready
+                  Built with FDCPA &amp; Reg F compliance
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <Plug className="size-4 text-crimson-600" />
-                  Launch in 30 days
+                  120+ integrations included
                 </span>
               </div>
             </Reveal>
@@ -212,8 +212,8 @@ export default function HomePage() {
           <SectionHeading
             align="center"
             eyebrow="The plan"
-            title="Live in 30 days. Recovering more in 90."
-            lead="No year-long implementation. No rip-and-replace. Get launched fast, see recovery gains within your first quarter. Built for speed and results."
+            title="Deployed fast. Optimized continuously."
+            lead="Most teams launch in weeks, not quarters. Your platform is ready immediately — then we optimize channels, workflows, and strategy continuously based on your results."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {planSteps.map((step, i) => {
