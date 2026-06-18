@@ -28,29 +28,29 @@ import { brand } from "@/content/site";
 export const metadata: Metadata = {
   title: "Platform Overview — Hyventur",
   description:
-    "The modern payment platform for collections and receivables. See how Hyventur helps agencies, debt buyers, law firms, and creditors get paid — compliantly, at scale.",
+    "The modern payment platform for accounts receivable, billing, and collections. See how Hyventur helps creditors, agencies, healthcare organizations, and law firms get paid — compliantly, at scale.",
 };
 
 const problems = [
   {
     icon: X,
-    title: "Consumers abandon at checkout",
-    body: "Login walls, broken mobile pages, and no flexible plan option send ready-to-pay consumers away before they finish. That's a recovery you already earned — lost to bad UX.",
+    title: "Customers abandon before they pay",
+    body: "Login friction, broken mobile experiences, and limited payment options send customers away before completing payment — revenue your business already earned, lost to poor technology.",
   },
   {
     icon: X,
-    title: "Compliance is a daily minefield",
-    body: "FDCPA, Regulation F, and state-by-state rules grow more complex every year. Patchwork tools create gaps. Every campaign is a potential exposure.",
+    title: "Compliance complexity slows everything down",
+    body: "FDCPA, Regulation F, HIPAA, and state-specific billing rules create operational risk. Patchwork tools can't enforce these requirements consistently at scale.",
   },
   {
     icon: X,
-    title: "Your team fights the software",
-    body: "Agents key in payments by hand. Plans break silently. Clients ask for reports your system can't produce. Hours disappear into reconciliation instead of results.",
+    title: "Your AR team is fighting software, not driving results",
+    body: "Manual reconciliation, broken payment plans, and clients asking for reports your system can't produce. The tools should work for your team — not the other way around.",
   },
   {
     icon: X,
-    title: "Too many vendors, no single truth",
-    body: "Five tools. Five support contacts. Five failure points. No unified view of what's working. Your operation is only as good as the weakest link in the chain.",
+    title: "Disconnected vendors create blind spots",
+    body: "Multiple tools for billing, outreach, payments, and reporting mean no single source of truth. Gaps between systems cost time, create risk, and erode confidence in your data.",
   },
 ];
 
@@ -105,10 +105,10 @@ const failureItems = [
 ];
 
 const whoWeServe = [
-  { icon: Users, name: "Collection Agencies", desc: "Omnichannel recovery across every account" },
-  { icon: Banknote, name: "Debt Buyers", desc: "Portfolio-scale automation and compliance" },
-  { icon: Scale, name: "Collection Law Firms", desc: "Judgment recovery with full documentation" },
-  { icon: HeartPulse, name: "Healthcare Billing", desc: "HIPAA-aware patient payment portals" },
+  { icon: Users, name: "Creditors & Lenders", desc: "Keep accounts current before charge-off" },
+  { icon: HeartPulse, name: "Healthcare & Billing", desc: "HIPAA-aware patient payment portals" },
+  { icon: Banknote, name: "Collection Agencies", desc: "Omnichannel recovery at portfolio scale" },
+  { icon: Scale, name: "Law Firms & Legal", desc: "Judgment recovery with full documentation" },
 ];
 
 const planSteps = [
@@ -183,7 +183,7 @@ export default function OverviewPage() {
 
           <Reveal delay={0.05}>
             <h1 className="mt-6 font-display text-[2.8rem] font-extrabold leading-[1.05] tracking-tight sm:text-[3.8rem]">
-              Your consumers want to pay you.
+              Your customers want to pay you.
               <br />
               <span className="text-crimson-400">
                 We make sure nothing gets in the way.
@@ -193,10 +193,9 @@ export default function OverviewPage() {
 
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink-300">
-              Hyventur is the modern payment platform built specifically for
-              collections agencies, debt buyers, law firms, and creditors — where
-              compliance is the foundation, not an afterthought, and every channel
-              is unified in one place.
+              Hyventur is the modern payment platform built for accounts receivable,
+              billing, and collections teams — where compliance is the foundation,
+              not an afterthought, and every payment channel is unified in one place.
             </p>
           </Reveal>
 
@@ -243,12 +242,12 @@ export default function OverviewPage() {
               The problem
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              Legacy payment tools are quietly costing you recoveries.
+              Outdated payment tools are quietly costing you revenue.
             </h2>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-500">
-              Most collections teams are held back not by effort — but by tools
-              that weren&apos;t designed for the regulatory complexity and consumer
-              expectations of 2026.
+              Most accounts receivable and billing teams are held back not by
+              effort — but by tools that weren&apos;t designed for the regulatory
+              complexity and consumer expectations of 2026.
             </p>
           </Reveal>
 
@@ -283,14 +282,14 @@ export default function OverviewPage() {
               There is a better way
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              We built Hyventur because collections teams
+              We built Hyventur because AR and billing teams
               <br className="hidden sm:block" /> deserve tools that work as hard as they do.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-500">
               Not another legacy portal with a new logo. Not a patchwork of
-              disconnected tools. A modern, unified payment platform built
-              from the ground up for the regulatory complexity and operational
-              demands of the ARM industry.
+              disconnected tools. A modern, unified payment platform built for
+              the regulatory complexity and operational demands of accounts
+              receivable, billing, and collections — across every industry.
             </p>
           </Reveal>
 
@@ -329,12 +328,12 @@ export default function OverviewPage() {
               Who we serve
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              Built for the collections and receivables industry.
+              Built for every team that needs to get paid.
             </h2>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-500">
-              Hyventur was designed specifically for the operational realities,
-              regulatory requirements, and consumer dynamics of the ARM space —
-              not adapted from a generic payment tool.
+              Hyventur was designed for the operational realities, regulatory
+              requirements, and consumer dynamics of accounts receivable,
+              billing, and collections — not adapted from a generic payment tool.
             </p>
           </Reveal>
 
@@ -357,7 +356,7 @@ export default function OverviewPage() {
 
           <Reveal delay={0.1}>
             <p className="mt-8 text-center text-[0.88rem] text-ink-400">
-              Also serving: Government &amp; Municipal · Utilities &amp; Telecom · Property Management · Consumer Finance
+              Also serving: Debt Buyers · Government &amp; Municipal · Utilities &amp; Telecom · Property Management · Consumer Finance
             </p>
           </Reveal>
         </div>
@@ -550,8 +549,8 @@ export default function OverviewPage() {
                   ))}
                 </ul>
                 <p className="mt-6 text-[0.85rem] leading-relaxed text-crimson-700">
-                  Every day a consumer can&apos;t complete a payment is a recovery
-                  your team already earned — lost to friction and outdated
+                  Every day a customer can&apos;t complete a payment is revenue
+                  your business already earned — lost to friction and outdated
                   technology.
                 </p>
               </div>
