@@ -14,6 +14,7 @@ import {
   CampaignsSection,
   PlansSection,
   SettlementsSection,
+  PortfolioSection,
   ReportsSection,
   IntegrationsSection,
   SettingsSection,
@@ -41,6 +42,8 @@ function SectionView({ section, tf }: { section: string; tf: TF }) {
       return <PlansSection />;
     case "settlements":
       return <SettlementsSection />;
+    case "portfolio":
+      return <PortfolioSection />;
     case "reports":
       return <ReportsSection tf={tf} />;
     case "integrations":

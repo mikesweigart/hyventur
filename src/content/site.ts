@@ -20,6 +20,7 @@ import {
   Users,
   LayoutDashboard,
   Settings,
+  Gauge,
   type LucideIcon,
 } from "lucide-react";
 
@@ -89,8 +90,9 @@ export const dashboardNav: NavGroup[] = [
     ],
   },
   {
-    label: "Insights",
+    label: "Intelligence",
     items: [
+      { label: "Portfolio Risk", href: "portfolio", icon: Gauge },
       { label: "Reports", href: "reports", icon: ChartNoAxesCombined },
       { label: "Integrations", href: "integrations", icon: Plug },
       { label: "Settings", href: "settings", icon: Settings },

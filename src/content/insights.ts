@@ -1,8 +1,12 @@
+import generated from "./insights-generated.json";
+
 export type Block =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "quote"; text: string };
+
+export type FAQItem = { q: string; a: string };
 
 export type Article = {
   slug: string;
@@ -13,6 +17,10 @@ export type Article = {
   readingMinutes: number;
   author: string;
   body: Block[];
+  keywords?: string[];
+  metaDescription?: string;
+  faq?: FAQItem[];
+  related?: string[];
 };
 
 const CTA: Block = {
@@ -20,7 +28,7 @@ const CTA: Block = {
   text: "Hyventur was built to make this the easy part. If you're ready to give consumers a payment experience they'll actually finish — and give your team the clarity to see it working — book a demo and we'll walk you through it.",
 };
 
-export const articles: Article[] = [
+const existingArticles: Article[] = [
   {
     slug: "why-consumers-abandon-your-payment-portal",
     title: "Why Consumers Abandon Your Payment Portal — and How to Win Them Back",
@@ -357,8 +365,30 @@ export const articles: Article[] = [
   },
 ];
 
+// 20 SEO/LLM-optimized articles generated into insights-generated.json,
+// merged newest-first ahead of the original set.
+const generatedArticles = generated as unknown as Article[];
+
+export const articles: Article[] = [...generatedArticles, ...existingArticles];
+
 export function getArticle(slug: string): Article | undefined {
   return articles.find((a) => a.slug === slug);
+}
+
+export function relatedArticles(article: Article, count = 3): Article[] {
+  const bySlug = new Map(articles.map((a) => [a.slug, a]));
+  const picked: Article[] = [];
+  for (const slug of article.related ?? []) {
+    const a = bySlug.get(slug);
+    if (a && a.slug !== article.slug) picked.push(a);
+  }
+  if (picked.length < count) {
+    for (const a of articles) {
+      if (picked.length >= count) break;
+      if (a.slug !== article.slug && !picked.includes(a)) picked.push(a);
+    }
+  }
+  return picked.slice(0, count);
 }
 
 export const categories = Array.from(new Set(articles.map((a) => a.category)));

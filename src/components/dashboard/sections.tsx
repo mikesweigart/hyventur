@@ -20,8 +20,20 @@ import {
   UserCog,
   ShieldCheck,
   Globe,
+  TrendingUp,
+  Activity,
+  Target,
+  Layers,
 } from "lucide-react";
-import { AreaChart, BarChart, Donut } from "@/components/site/charts";
+import {
+  AreaChart,
+  BarChart,
+  Donut,
+  Sparkline,
+  GaugeArc,
+  Heatmap,
+  StackedBar,
+} from "@/components/site/charts";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -62,6 +74,13 @@ const cumulativeSeries: Record<TF, number[]> = {
   "7d": cumulative(7, 11),
   "30d": cumulative(30, 23),
   "90d": cumulative(90, 47),
+};
+
+// Industry-benchmark pace (a slower parallel curve for comparison)
+const benchmarkSeries: Record<TF, number[]> = {
+  "7d": cumulativeSeries["7d"].map((v) => v * 0.73),
+  "30d": cumulativeSeries["30d"].map((v) => v * 0.73),
+  "90d": cumulativeSeries["90d"].map((v) => v * 0.73),
 };
 
 const kpis: Record<
@@ -170,14 +189,35 @@ export function OverviewSection({ tf }: { tf: TF }) {
 
       <div className="grid gap-4 lg:grid-cols-[1.7fr_1fr]">
         <Card>
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
               <p className="text-[0.8rem] font-medium text-ink-400">Recovered volume · cumulative</p>
               <p className="mt-0.5 font-display text-2xl font-bold tracking-tight text-ink-900">{k.recovered}</p>
             </div>
-            <Delta value={k.deltas[0]} />
+            <div className="flex flex-col items-end gap-2">
+              <Delta value={k.deltas[0]} />
+              <div className="flex items-center gap-3 text-[0.68rem] text-ink-400">
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-[2px] w-3 rounded bg-crimson-600" /> Recovered
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-0 w-3 border-t-[1.5px] border-dashed border-ink-300" /> Industry pace
+                </span>
+              </div>
+            </div>
           </div>
-          <AreaChart key={tf} values={cumulativeSeries[tf]} height={150} width={520} className="mt-4" animate />
+          <AreaChart
+            key={tf}
+            values={cumulativeSeries[tf]}
+            compare={benchmarkSeries[tf]}
+            height={150}
+            width={520}
+            className="mt-4"
+            grid
+            baselineZero
+            showEndpoint
+            animate
+          />
         </Card>
 
         <Card>
@@ -620,6 +660,301 @@ export function SettlementsSection() {
 }
 
 /* ================================================================== */
+/*  PORTFOLIO RISK & ANALYTICS — financial-institution grade           */
+/* ================================================================== */
+
+// Cumulative liquidation curve (% of placed balance) vs. industry benchmark
+const liquidationCurve = [0, 8.4, 15.9, 22.6, 28.4, 33.3, 37.4, 40.6, 43.0, 44.6, 45.7, 46.4];
+const liquidationBench = [0, 5.1, 9.8, 14.2, 18.1, 21.4, 24.1, 26.2, 27.7, 28.8, 29.5, 30.0];
+
+// Vintage / cohort recovery — cumulative recovered % by months-since-placement
+const vintageRows = ["Jun '26", "May '26", "Apr '26", "Mar '26", "Feb '26", "Jan '26"];
+const vintageCols = ["M0", "M1", "M2", "M3", "M4", "M5", "M6"];
+const vintageData: (number | null)[][] = [
+  [0.11, null, null, null, null, null, null],
+  [0.10, 0.21, null, null, null, null, null],
+  [0.12, 0.23, 0.32, null, null, null, null],
+  [0.10, 0.20, 0.29, 0.37, null, null, null],
+  [0.09, 0.19, 0.28, 0.35, 0.41, null, null],
+  [0.11, 0.22, 0.31, 0.39, 0.45, 0.49, 0.52],
+];
+
+// Risk tiers (propensity-scored) — accounts, balance, expected recovery
+const riskTiers = [
+  { tier: "A · Prime", score: "800–900", accounts: "38,420", balance: "$9.24M", recovery: 84, color: "#1c7d5b" },
+  { tier: "B · Near-prime", score: "650–799", accounts: "52,180", balance: "$14.6M", recovery: 61, color: "#2e3744" },
+  { tier: "C · Subprime", score: "500–649", accounts: "41,900", balance: "$11.1M", recovery: 38, color: "#b2751a" },
+  { tier: "D · Deep", score: "300–499", accounts: "24,360", balance: "$6.02M", recovery: 19, color: "#9e1b33" },
+];
+
+const propensitySegments = [
+  { label: "High (80–100)", value: 41, color: "#9e1b33", count: "72,410" },
+  { label: "Medium (50–79)", value: 34, color: "#2e3744", count: "60,050" },
+  { label: "Low (0–49)", value: 25, color: "#76808f", count: "44,400" },
+];
+
+function RiskKpi({
+  icon,
+  label,
+  value,
+  sub,
+  spark,
+  tone = "up",
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  sub: string;
+  spark: number[];
+  tone?: "up" | "down";
+}) {
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between">
+        <span className="inline-flex size-7 items-center justify-center rounded-lg bg-crimson-50 text-crimson-600">
+          {icon}
+        </span>
+        <Sparkline
+          values={spark}
+          width={64}
+          height={22}
+          color={tone === "up" ? "#1c7d5b" : "#9e1b33"}
+          fillArea
+          className="h-6 w-16"
+        />
+      </div>
+      <p className="mt-3 text-[0.72rem] font-medium uppercase tracking-wide text-ink-400">{label}</p>
+      <p className="mt-0.5 font-display text-2xl font-bold tracking-tight text-ink-900" style={{ fontVariantNumeric: "tabular-nums" }}>
+        {value}
+      </p>
+      <p className="mt-0.5 text-[0.72rem] text-ink-500">{sub}</p>
+    </Card>
+  );
+}
+
+export function PortfolioSection() {
+  const health = 78;
+  return (
+    <div className="space-y-4">
+      <SectionTitle
+        title="Portfolio Risk & Analytics"
+        sub="Propensity-scored recovery intelligence across the book — updated in real time."
+      />
+
+      {/* Health score + risk KPIs */}
+      <div className="grid gap-4 lg:grid-cols-[1fr_2.6fr]">
+        <Card className="flex flex-col items-center justify-center py-6">
+          <p className="text-[0.72rem] font-medium uppercase tracking-wide text-ink-400">
+            Portfolio Health Score
+          </p>
+          <div className="relative mt-2">
+            <GaugeArc value={health} size={168} thickness={13} />
+            <div className="absolute inset-x-0 bottom-1 flex flex-col items-center">
+              <span className="font-display text-4xl font-bold tracking-tight text-ink-900">{health}</span>
+              <span className="text-[0.68rem] font-semibold uppercase tracking-wide text-emerald-600">
+                Healthy
+              </span>
+            </div>
+          </div>
+          <div className="mt-3 flex w-full items-center justify-between px-2 text-[0.66rem] text-ink-400">
+            <span>0</span>
+            <span className="text-ink-500">Composite of yield, velocity &amp; risk mix</span>
+            <span>100</span>
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <RiskKpi
+            icon={<Target className="size-4" />}
+            label="Predicted liquidation"
+            value="46.4%"
+            sub="of placed balance · 12-mo"
+            spark={[30, 33, 37, 40, 43, 45, 46.4]}
+          />
+          <RiskKpi
+            icon={<TrendingUp className="size-4" />}
+            label="Net recovery yield"
+            value="63.8%"
+            sub="+4.2 pts vs. benchmark"
+            spark={[57, 58, 60, 61, 62, 63, 63.8]}
+          />
+          <RiskKpi
+            icon={<Phone className="size-4" />}
+            label="Right-party contact"
+            value="63.4%"
+            sub="across all channels"
+            spark={[54, 56, 58, 60, 61, 62, 63.4]}
+          />
+          <RiskKpi
+            icon={<Check className="size-4" />}
+            label="Promise-kept rate"
+            value="71.2%"
+            sub="plan installments honored"
+            spark={[64, 66, 67, 69, 70, 71, 71.2]}
+          />
+        </div>
+      </div>
+
+      {/* Liquidation curve + vintage heatmap */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card>
+          <div className="flex items-center justify-between">
+            <p className="text-[0.8rem] font-medium text-ink-400">
+              Liquidation curve · cumulative % of placed
+            </p>
+            <div className="flex items-center gap-3 text-[0.68rem] text-ink-400">
+              <span className="inline-flex items-center gap-1">
+                <span className="h-[2px] w-3 rounded bg-crimson-600" /> Portfolio
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <span className="h-0 w-3 border-t-[1.5px] border-dashed border-ink-300" /> Benchmark
+              </span>
+            </div>
+          </div>
+          <AreaChart
+            values={liquidationCurve}
+            compare={liquidationBench}
+            height={168}
+            width={460}
+            className="mt-3"
+            grid
+            baselineZero
+            showEndpoint
+            yFormat={(v) => `${Math.round(v)}%`}
+            animate
+          />
+          <p className="mt-2 text-[0.72rem] text-ink-400">
+            Projected to clear <span className="font-semibold text-ink-700">46.4%</span> vs. a{" "}
+            <span className="font-semibold text-ink-700">30.0%</span> industry pace over 12 months.
+          </p>
+        </Card>
+
+        <Card>
+          <p className="text-[0.8rem] font-medium text-ink-400">
+            Vintage recovery · cumulative % by months since placement
+          </p>
+          <Heatmap
+            rows={vintageRows}
+            cols={vintageCols}
+            data={vintageData}
+            className="mt-3"
+          />
+          <p className="mt-2 text-[0.72rem] text-ink-400">
+            Each cell is cumulative recovery for that placement cohort. Fresher vintages tracking above prior months.
+          </p>
+        </Card>
+      </div>
+
+      {/* Risk tier distribution */}
+      <Card className="p-0">
+        <div className="flex items-center justify-between border-b border-ink-100 px-5 py-3">
+          <p className="text-[0.85rem] font-semibold text-ink-900">Risk-tier distribution</p>
+          <span className="inline-flex items-center gap-1.5 text-[0.72rem] text-ink-400">
+            <Layers className="size-3.5" /> 156,860 accounts scored
+          </span>
+        </div>
+        <div className="px-5 pt-4">
+          <StackedBar segments={riskTiers.map((t) => ({ value: parseFloat(t.balance.replace(/[$M]/g, "")), color: t.color, label: t.tier }))} height={10} />
+        </div>
+        <table className="w-full text-left text-[0.82rem]">
+          <thead>
+            <tr className="text-[0.68rem] uppercase tracking-wide text-ink-400">
+              <th className="px-5 py-2 font-semibold">Tier</th>
+              <th className="px-3 py-2 font-semibold">Score band</th>
+              <th className="px-3 py-2 font-semibold">Accounts</th>
+              <th className="px-3 py-2 font-semibold">Balance</th>
+              <th className="px-5 py-2 text-right font-semibold">Expected recovery</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riskTiers.map((t) => (
+              <tr key={t.tier} className="border-t border-ink-50">
+                <td className="px-5 py-2.5">
+                  <span className="inline-flex items-center gap-2 font-medium text-ink-800">
+                    <span className="size-2.5 rounded-full" style={{ background: t.color }} />
+                    {t.tier}
+                  </span>
+                </td>
+                <td className="px-3 py-2.5 font-mono text-[0.76rem] text-ink-500">{t.score}</td>
+                <td className="px-3 py-2.5 text-ink-600 tabular-nums">{t.accounts}</td>
+                <td className="px-3 py-2.5 font-semibold text-ink-900 tabular-nums">{t.balance}</td>
+                <td className="px-5 py-2.5">
+                  <div className="flex items-center justify-end gap-2">
+                    <div className="hidden h-1.5 w-20 overflow-hidden rounded-full bg-ink-100 sm:block">
+                      <div className="h-full rounded-full" style={{ width: `${t.recovery}%`, background: t.color }} />
+                    </div>
+                    <span className="w-9 text-right font-medium text-ink-700 tabular-nums">{t.recovery}%</span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
+
+      {/* Propensity segments */}
+      <div className="grid gap-4 lg:grid-cols-[1fr_1.6fr]">
+        <Card>
+          <p className="text-[0.8rem] font-medium text-ink-400">Payment-propensity mix</p>
+          <div className="mt-3 flex items-center gap-4">
+            <div className="relative">
+              <Donut segments={propensitySegments} size={120} thickness={16} />
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="font-display text-lg font-bold text-ink-900">156K</span>
+                <span className="text-[0.6rem] text-ink-400">scored</span>
+              </div>
+            </div>
+            <ul className="flex-1 space-y-1.5">
+              {propensitySegments.map((s) => (
+                <li key={s.label} className="flex items-center justify-between text-[0.78rem]">
+                  <span className="flex items-center gap-1.5 text-ink-600">
+                    <span className="size-2 rounded-full" style={{ background: s.color }} />
+                    {s.label}
+                  </span>
+                  <span className="font-semibold text-ink-900 tabular-nums">{s.count}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Card>
+
+        <Card className="flex flex-col justify-center">
+          <div className="flex items-start gap-3">
+            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-crimson-50 text-crimson-600">
+              <Activity className="size-5" />
+            </span>
+            <div>
+              <p className="text-[0.9rem] font-semibold text-ink-900">Next-best-action queue</p>
+              <p className="mt-0.5 text-[0.8rem] text-ink-500">
+                Model-ranked accounts, prioritized by expected recovery per contact.
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 space-y-2">
+            {[
+              { seg: "High-propensity · aging 31–60d", action: "Text2Pay + settlement offer", lift: "+18%" },
+              { seg: "Recent broken plan · card expired", action: "Card-updater + smart retry", lift: "+11%" },
+              { seg: "Prime · no contact 14d", action: "IVR callback window", lift: "+7%" },
+            ].map((r) => (
+              <div key={r.seg} className="flex items-center justify-between rounded-lg bg-mist px-3 py-2">
+                <div>
+                  <p className="text-[0.8rem] font-medium text-ink-800">{r.seg}</p>
+                  <p className="text-[0.72rem] text-ink-400">{r.action}</p>
+                </div>
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[0.72rem] font-semibold text-emerald-700">
+                  <ArrowUpRight className="size-3" />
+                  {r.lift}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
 /*  REPORTS — robust analytics                                         */
 /* ================================================================== */
 
@@ -654,8 +989,29 @@ export function ReportsSection({ tf }: { tf: TF }) {
       </div>
 
       <Card>
-        <p className="text-[0.8rem] font-medium text-ink-400">Recovered over time · cumulative</p>
-        <AreaChart key={tf} values={cumulativeSeries[tf]} height={150} width={900} className="mt-3" animate />
+        <div className="flex items-center justify-between">
+          <p className="text-[0.8rem] font-medium text-ink-400">Recovered over time · cumulative vs. industry pace</p>
+          <div className="flex items-center gap-3 text-[0.68rem] text-ink-400">
+            <span className="inline-flex items-center gap-1">
+              <span className="h-[2px] w-3 rounded bg-crimson-600" /> Recovered
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <span className="h-0 w-3 border-t-[1.5px] border-dashed border-ink-300" /> Benchmark
+            </span>
+          </div>
+        </div>
+        <AreaChart
+          key={tf}
+          values={cumulativeSeries[tf]}
+          compare={benchmarkSeries[tf]}
+          height={160}
+          width={900}
+          className="mt-3"
+          grid
+          baselineZero
+          showEndpoint
+          animate
+        />
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
