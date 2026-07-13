@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Check, Loader2, ArrowRight } from "lucide-react";
 import { solutions } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -69,7 +70,7 @@ export function ContactForm() {
         </div>
         <div>
           <label className="mb-1.5 block text-[0.82rem] font-semibold text-ink-700">
-            Phone
+            Mobile phone
           </label>
           <input
             type="tel"
@@ -111,10 +112,35 @@ export function ContactForm() {
         </div>
       </div>
 
+      {/* A2P 10DLC-compliant SMS opt-in — explicit, optional, not pre-checked */}
+      <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-lg border border-ink-100 bg-subtle p-4">
+        <input
+          type="checkbox"
+          name="smsConsent"
+          value="yes"
+          className="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-crimson-600 focus:ring-crimson-200"
+        />
+        <span className="text-[0.78rem] leading-relaxed text-ink-500">
+          I agree to receive recurring automated text messages (such as demo
+          scheduling and account updates) from Hyventur at the mobile number
+          provided. Consent is not a condition of purchase. Message frequency
+          varies. Message &amp; data rates may apply. Reply STOP to opt out or
+          HELP for help. See our{" "}
+          <Link href="/privacy" className="font-medium text-crimson-600 underline underline-offset-2">
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link href="/terms" className="font-medium text-crimson-600 underline underline-offset-2">
+            Terms &amp; Conditions
+          </Link>
+          .
+        </span>
+      </label>
+
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-crimson-600 px-5 py-3 text-[0.95rem] font-semibold text-white transition-colors hover:bg-crimson-700 disabled:opacity-70"
+        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-crimson-600 px-5 py-3 text-[0.95rem] font-semibold text-white transition-colors hover:bg-crimson-700 disabled:opacity-70"
       >
         {status === "submitting" ? (
           <>
@@ -130,7 +156,7 @@ export function ContactForm() {
       </button>
       <p className="mt-3 text-center text-[0.78rem] text-ink-400">
         By submitting, you agree to be contacted about Hyventur. We respect your
-        inbox.
+        inbox and never sell your information.
       </p>
     </form>
   );

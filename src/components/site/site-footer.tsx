@@ -106,14 +106,14 @@ export function SiteFooter() {
             © {year} {brand.legalName}. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/contact" className="hover:text-white">
+            <Link href="/privacy" className="hover:text-white">
               Privacy
             </Link>
-            <Link href="/contact" className="hover:text-white">
+            <Link href="/terms" className="hover:text-white">
               Terms
             </Link>
             <Link href="/contact" className="hover:text-white">
-              Security
+              Contact
             </Link>
           </div>
         </div>

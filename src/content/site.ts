@@ -36,8 +36,8 @@ export const brand = {
   // StoryBrand one-liner — character + problem + solution + success
   oneLiner:
     "Hyventur is the compliance-first payment platform for collections teams. Built for modern recovery — not legacy systems — with omnichannel payments, audit-ready workflows, and real-time reporting that works as hard as you do.",
-  phone: "(800) 555-0142",
-  email: "hello@hyventur.com",
+  phone: "(678) 923-4094",
+  email: "sales@hyventur.com",
   salesEmail: "sales@hyventur.com",
 };
 

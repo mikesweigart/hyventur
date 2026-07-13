@@ -36,13 +36,6 @@ const values = [
   },
 ];
 
-// Leadership team
-const leadership = [
-  { name: "Bob Johnson", role: "Founder & CEO", image: "/images/about/leader-1.png" },
-  { name: "Rick Jackson", role: "Chief Financial Officer", image: "/images/about/leader-2.png" },
-  { name: "Amy Smith", role: "Chief Revenue Officer", image: "/images/about/leader-3.png" },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -160,27 +153,13 @@ export default function AboutPage() {
             title="The people behind Hyventur."
             lead="A team that has lived the problems we solve — across payments, collections, technology, and compliance."
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-3">
-            {leadership.map((p, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <div className="overflow-hidden rounded-2xl border border-ink-100 bg-subtle">
-                  <div className="relative aspect-square w-full">
-                    <Image
-                      src={p.image}
-                      alt={p.name}
-                      fill
-                      className="object-cover"
-                      quality={90}
-                    />
-                  </div>
-                  <div className="p-5 text-center">
-                    <p className="font-semibold text-ink-900">{p.name}</p>
-                    <p className="text-[0.88rem] text-crimson-600">{p.role}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <p className="mx-auto mt-8 max-w-2xl text-center text-[1rem] leading-relaxed text-ink-500">
+              Our leadership team brings decades of combined experience across
+              payment technology, collections operations, and regulatory
+              compliance. Full team profiles coming soon.
+            </p>
+          </Reveal>
         </div>
       </section>
 
