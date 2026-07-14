@@ -112,30 +112,39 @@ export function ContactForm() {
         </div>
       </div>
 
-      {/* A2P 10DLC-compliant SMS opt-in — explicit, optional, not pre-checked */}
-      <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-lg border border-ink-100 bg-subtle p-4">
-        <input
-          type="checkbox"
-          name="smsConsent"
-          value="yes"
-          className="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-crimson-600 focus:ring-crimson-200"
-        />
-        <span className="text-[0.78rem] leading-relaxed text-ink-500">
-          I agree to receive recurring automated text messages (such as demo
-          scheduling and account updates) from Hyventur at the mobile number
-          provided. Consent is not a condition of purchase. Message frequency
-          varies. Message &amp; data rates may apply. Reply STOP to opt out or
-          HELP for help. See our{" "}
-          <Link href="/privacy" className="font-medium text-crimson-600 underline underline-offset-2">
-            Privacy Policy
-          </Link>{" "}
-          and{" "}
-          <Link href="/terms" className="font-medium text-crimson-600 underline underline-offset-2">
-            Terms &amp; Conditions
-          </Link>
-          .
-        </span>
-      </label>
+      {/* A2P 10DLC consent — two explicit, optional, not-pre-checked opt-ins */}
+      <div className="mt-6 space-y-3">
+        <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-ink-100 bg-subtle p-4">
+          <input
+            type="checkbox"
+            name="transactionalConsent"
+            value="yes"
+            className="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-crimson-600 focus:ring-crimson-200"
+          />
+          <span className="text-[0.78rem] leading-relaxed text-ink-500">
+            By checking this box, I consent to receive transactional messages
+            related to my account or services I have requested. These messages
+            may include appointment reminders, demo scheduling, and account
+            notifications among others. Message frequency may vary. Message &amp;
+            Data rates may apply. Reply HELP for help or STOP to opt-out.
+          </span>
+        </label>
+
+        <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-ink-100 bg-subtle p-4">
+          <input
+            type="checkbox"
+            name="marketingConsent"
+            value="yes"
+            className="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-crimson-600 focus:ring-crimson-200"
+          />
+          <span className="text-[0.78rem] leading-relaxed text-ink-500">
+            By checking this box, I consent to receive marketing and promotional
+            messages, including product updates, offers, and company news among
+            others. Message frequency may vary. Message &amp; Data rates may
+            apply. Reply HELP for help or STOP to opt-out.
+          </span>
+        </label>
+      </div>
 
       <button
         type="submit"
@@ -154,10 +163,29 @@ export function ContactForm() {
           </>
         )}
       </button>
-      <p className="mt-3 text-center text-[0.78rem] text-ink-400">
-        By submitting, you agree to be contacted about Hyventur. We respect your
-        inbox and never sell your information.
+
+      <p className="mt-4 text-center text-[0.78rem] leading-relaxed text-ink-400">
+        Consent is not a condition of purchase. Reply{" "}
+        <span className="font-semibold text-ink-500">STOP</span> to unsubscribe
+        or <span className="font-semibold text-ink-500">HELP</span> for help.
+        Message frequency may vary. Message and data rates may apply.
       </p>
+
+      <div className="mt-4 flex items-center justify-center gap-4 border-t border-ink-100 pt-4 text-[0.8rem]">
+        <Link
+          href="/privacy"
+          className="font-medium text-crimson-600 hover:text-crimson-700"
+        >
+          Privacy Policy
+        </Link>
+        <span className="text-ink-200">|</span>
+        <Link
+          href="/terms"
+          className="font-medium text-crimson-600 hover:text-crimson-700"
+        >
+          Terms of Service
+        </Link>
+      </div>
     </form>
   );
 }
